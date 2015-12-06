@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <D2D1.h>// header for Direct2D
+#pragma comment(lib,"d2d1.lib")  // for link option
 
 #define SAFE_RELEASE(P) if(P){P->Release() ; P = NULL ;}
 
@@ -19,7 +20,7 @@ VOID CreateD2DResource(HWND hWnd)
 		hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pD2DFactory);
 		if (FAILED(hr))
 		{
-			MessageBox(hWnd, "Create D2D factory failed!", "Error", 0);
+			MessageBox(hWnd, L"Create D2D factory failed!", L"Error", 0);
 			return;
 		}
 
@@ -37,7 +38,7 @@ VOID CreateD2DResource(HWND hWnd)
 			);
 		if (FAILED(hr))
 		{
-			MessageBox(hWnd, "Create render target failed!", "Error", 0);
+			MessageBox(hWnd, L"Create render target failed!", L"Error", 0);
 			return;
 		}
 
@@ -48,7 +49,7 @@ VOID CreateD2DResource(HWND hWnd)
 			);
 		if (FAILED(hr))
 		{
-			MessageBox(hWnd, "Create brush failed!", "Error", 0);
+			MessageBox(hWnd, L"Create brush failed!", L"Error", 0);
 			return;
 		}
 	}
@@ -73,7 +74,7 @@ VOID DrawRectangle()
 
 	if (FAILED(hr))
 	{
-		MessageBox(NULL, "Draw failed!", "Error", 0);
+		MessageBox(NULL, L"Draw failed!", L"Error", 0);
 		return;
 	}
 }
@@ -92,7 +93,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		DrawRectangle();
 		ValidateRect(g_Hwnd, NULL);
-		return0;
+		return 0;
 
 	case WM_KEYDOWN:
 	{
@@ -110,7 +111,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		Cleanup();
 		PostQuitMessage(0);
-		return0;
+		return 0;
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
@@ -121,7 +122,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 	WNDCLASSEX winClass;
 
-	winClass.lpszClassName = "Direct2D";
+	winClass.lpszClassName = L"Direct2D";
 	winClass.cbSize = sizeof(WNDCLASSEX);
 	winClass.style = CS_HREDRAW | CS_VREDRAW;
 	winClass.lpfnWndProc = WndProc;
@@ -136,13 +137,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 	if (!RegisterClassEx(&winClass))
 	{
-		MessageBox(NULL, TEXT("This program requires Windows NT!"), "error", MB_ICONERROR);
+		MessageBox(NULL, TEXT("This program requires Windows NT!"), L"error", MB_ICONERROR);
 		return 0;
 	}
 
 	g_Hwnd = CreateWindowEx(NULL,
-		"Direct2D", // window class name
-		"Draw Rectangle", // window caption
+		L"Direct2D", // window class name
+		L"Draw Rectangle", // window caption
 		WS_OVERLAPPEDWINDOW, // window style
 		CW_USEDEFAULT, // initial x position
 		CW_USEDEFAULT, // initial y position
